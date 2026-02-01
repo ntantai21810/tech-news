@@ -1,0 +1,198 @@
+// Prisma schema for Tech Intelligence System
+// Run: pnpm db:generate && pnpm db:push
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// Source Configuration
+// ============================================
+
+model Source {
+  id             String     @id @default(cuid())
+  type           SourceType
+  name           String
+  url            String
+  config         Json       @default("{}")
+  priority       Priority   @default(MEDIUM)
+  checkFrequency String     @default("daily") // hourly, daily, weekly
+  categoryTags   String[]
+  isActive       Boolean    @default(true)
+  notes          String?
+
+  // Health metrics
+  lastFetchAt   DateTime?
+  lastError     String?
+  errorCount    Int       @default(0)
+  relevanceRate Float     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items RawItem[]
+
+  @@index([type])
+  @@index([isActive])
+}
+
+// ============================================
+// Raw Data Storage
+// ============================================
+
+model RawItem {
+  id          String   @id @default(cuid())
+  sourceId    String
+  source      Source   @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+  externalId  String
+  title       String
+  content     String   @db.Text
+  url         String
+  author      String?
+  publishedAt DateTime
+  fetchedAt   DateTime @default(now())
+  metadata    Json?
+  isProcessed Boolean  @default(false)
+
+  processedItem ProcessedItem?
+
+  @@unique([sourceId, externalId])
+  @@index([isProcessed])
+  @@index([publishedAt])
+}
+
+// ============================================
+// Processed Content
+// ============================================
+
+model ProcessedItem {
+  id             String       @id @default(cuid())
+  rawItemId      String       @unique
+  rawItem        RawItem      @relation(fields: [rawItemId], references: [id], onDelete: Cascade)
+  summary        String       @db.Text
+  categories     String[]
+  tags           String[]
+  relevanceScore Float
+  urgencyLevel   UrgencyLevel @default(NORMAL)
+  sentiment      Sentiment?
+  actionItems    String[]
+
+  // LLM tracking
+  llmModel      String
+  llmTokensUsed Int
+  llmCost       Float  @default(0)
+
+  processedAt DateTime @default(now())
+
+  digestItems DigestItem[]
+
+  @@index([relevanceScore])
+  @@index([urgencyLevel])
+  @@index([processedAt])
+}
+
+// ============================================
+// Daily Digests
+// ============================================
+
+model Digest {
+  id          String       @id @default(cuid())
+  date        DateTime     @unique @db.Date
+  title       String
+  content     String       @db.Text
+  status      DigestStatus @default(DRAFT)
+  publishedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items DigestItem[]
+
+  @@index([status])
+  @@index([date])
+}
+
+model DigestItem {
+  id              String        @id @default(cuid())
+  digestId        String
+  digest          Digest        @relation(fields: [digestId], references: [id], onDelete: Cascade)
+  processedItemId String
+  processedItem   ProcessedItem @relation(fields: [processedItemId], references: [id], onDelete: Cascade)
+  section         String
+  order           Int
+
+  @@unique([digestId, processedItemId])
+  @@index([section])
+}
+
+// ============================================
+// LLM Usage Tracking
+// ============================================
+
+model LlmUsage {
+  id        String   @id @default(cuid())
+  model     String
+  provider  String
+  tokensIn  Int
+  tokensOut Int
+  cost      Float
+  operation String
+  createdAt DateTime @default(now())
+
+  @@index([provider])
+  @@index([createdAt])
+}
+
+// ============================================
+// System Settings
+// ============================================
+
+model Setting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+// ============================================
+// Enums
+// ============================================
+
+enum SourceType {
+  GITHUB
+  REDDIT
+  RSS
+  TWITTER
+  HACKERNEWS
+  WEBSITE
+}
+
+enum Priority {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum UrgencyLevel {
+  CRITICAL
+  HIGH
+  NORMAL
+  LOW
+}
+
+enum Sentiment {
+  POSITIVE
+  NEGATIVE
+  NEUTRAL
+  CONTROVERSIAL
+}
+
+enum DigestStatus {
+  DRAFT
+  REVIEW
+  PUBLISHED
+}

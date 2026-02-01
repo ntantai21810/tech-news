@@ -1,0 +1,11 @@
+{
+  "extends": "@tech-intel/config/typescript/nestjs",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "test"]
+}

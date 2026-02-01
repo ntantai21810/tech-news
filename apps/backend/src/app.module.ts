@@ -4,6 +4,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { BullModule } from '@nestjs/bullmq';
 
 import { PrismaModule } from './common/prisma/prisma.module';
+import { AuthModule } from './auth/auth.module';
 import { SourcesModule } from './sources/sources.module';
 import { CollectorsModule } from './collectors/collectors.module';
 import { ProcessingModule } from './processing/processing.module';
@@ -31,6 +32,9 @@ import { StatsModule } from './stats/stats.module';
 
     // Database
     PrismaModule,
+
+    // Auth
+    AuthModule,
 
     // Feature modules
     SourcesModule,

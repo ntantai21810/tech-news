@@ -30,7 +30,7 @@ export class LlmService {
     ollamaProvider: OllamaProvider,
   ) {
     // Register all providers
-    this.providers = new Map([
+    this.providers = new Map<LlmProvider, ILlmProvider>([
       ['claude', claudeProvider],
       ['openai', openaiProvider],
       ['gemini', geminiProvider],

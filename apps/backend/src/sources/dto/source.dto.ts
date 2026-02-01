@@ -10,17 +10,17 @@ import { SourceType, Priority } from '@prisma/client';
 
 export class CreateSourceDto {
   @IsEnum(SourceType)
-  type: SourceType;
+  type!: SourceType;
 
   @IsString()
-  name: string;
+  name!: string;
 
   @IsString()
-  url: string;
+  url!: string;
 
   @IsOptional()
   @IsObject()
-  config?: Record<string, unknown>;
+  config?: Record<string, any>;
 
   @IsOptional()
   @IsEnum(Priority)
@@ -51,7 +51,7 @@ export class UpdateSourceDto {
 
   @IsOptional()
   @IsObject()
-  config?: Record<string, unknown>;
+  config?: Record<string, any>;
 
   @IsOptional()
   @IsEnum(Priority)

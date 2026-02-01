@@ -52,6 +52,7 @@
     "@nestjs/cli": "^10.4.0",
     "@nestjs/schematics": "^10.1.0",
     "@nestjs/testing": "^10.4.0",
+    "@tech-intel/config": "workspace:^",
     "@tech-intel/types": "workspace:*",
     "@types/bcryptjs": "^3.0.0",
     "@types/express": "^5.0.0",

@@ -53,7 +53,7 @@ export class CollectorScheduler {
         await this.collectFromSource(source);
         await this.sourcesService.updateHealth(source.id, {
           lastFetchAt: new Date(),
-          lastError: null,
+          lastError: undefined,
           errorCount: 0,
         });
       } catch (error) {

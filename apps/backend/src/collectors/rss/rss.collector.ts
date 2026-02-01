@@ -71,7 +71,7 @@ export class RssCollector {
                 feedTitle: feed.title,
                 categories: item.categories,
                 enclosure: item.enclosure,
-              },
+              } as any,
             },
           });
           savedCount++;
@@ -92,7 +92,7 @@ export class RssCollector {
   private extractContent(item: Parser.Item): string {
     // Prefer content:encoded, then content, then description
     const content =
-      item['content:encoded'] ||
+      (item as any)['content:encoded'] ||
       item.content ||
       item.contentSnippet ||
       item.summary ||

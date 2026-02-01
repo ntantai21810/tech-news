@@ -54,7 +54,7 @@ export class GeminiProvider implements ILlmProvider {
     const lastMessage = messages.filter((m) => m.role !== 'system').pop();
 
     const chat = model.startChat({
-      history: history as Parameters<typeof model.startChat>[0]['history'],
+      history: history as any,
       generationConfig: {
         maxOutputTokens: options?.maxTokens || 4096,
         temperature: options?.temperature ?? 0.7,

@@ -74,7 +74,8 @@ async function fetchApi<T>(endpoint: string): Promise<T | null> {
       return null;
     }
 
-    return res.json();
+    const text = await res.text();
+    return text ? JSON.parse(text) : null;
   } catch (error) {
     console.error(`Failed to fetch ${endpoint}:`, error);
     return null;

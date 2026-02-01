@@ -10,15 +10,16 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "clsx": "^2.1.0",
+    "date-fns": "^4.1.0",
     "next": "^15.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "recharts": "^2.13.0",
-    "date-fns": "^4.1.0",
-    "clsx": "^2.1.0",
     "zustand": "^5.0.0"
   },
   "devDependencies": {
+    "@tech-intel/config": "workspace:^",
     "@tech-intel/types": "workspace:*",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",

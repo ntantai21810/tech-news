@@ -49,18 +49,18 @@
 
 ## Remaining Work
 
-### 🔲 Phase 2: Admin Dashboard (Priority: HIGH)
+### 🔲 Phase 2: Admin Dashboard (Priority: HIGH) ✅ COMPLETE
 
-| Task | Complexity | Description |
-|------|------------|-------------|
-| Authentication | Medium | Email/password auth with JWT |
-| Source Management UI | Medium | CRUD interface for sources |
-| Stats Dashboard | Medium | Visualizations with Recharts |
-| Digest Editor | High | Review/edit before publishing |
-| Content Moderation | Medium | Approve/reject processed items |
-| User Settings | Low | LLM provider selection, notifications |
+| Task | Status | Description |
+|------|--------|-------------|
+| Authentication | ✅ Done | Email/password auth with JWT |
+| Source Management UI | ✅ Done | CRUD interface for sources |
+| Stats Dashboard | ✅ Done | Overview with LLM usage |
+| Digest Editor | ✅ Done | Review/edit before publishing |
+| Content Moderation | ✅ Done | Approve/reject processed items |
+| User Settings | ✅ Done | LLM provider selection |
 
-**Estimated Effort**: 2-3 days
+**Admin Dashboard**: `apps/admin/` (Next.js on port 3002)
 
 **Files to Create**:
 ```

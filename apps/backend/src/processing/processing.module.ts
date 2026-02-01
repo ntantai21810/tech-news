@@ -7,8 +7,11 @@ import { GlmProvider } from './llm/providers/glm.provider';
 import { OllamaProvider } from './llm/providers/ollama.provider';
 import { SummarizerService } from './summarizer.service';
 import { ProcessingScheduler } from './processing.scheduler';
+import { ProcessedItemsController } from './processed-items.controller';
+import { ProcessedItemsService } from './processed-items.service';
 
 @Module({
+  controllers: [ProcessedItemsController],
   providers: [
     // LLM Providers
     ClaudeProvider,
@@ -21,7 +24,9 @@ import { ProcessingScheduler } from './processing.scheduler';
     LlmService,
     SummarizerService,
     ProcessingScheduler,
+    ProcessedItemsService,
   ],
-  exports: [LlmService, SummarizerService],
+  exports: [LlmService, SummarizerService, ProcessedItemsService],
 })
 export class ProcessingModule {}
+

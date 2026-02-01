@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Query } from '@nestjs/common';
+import { Controller, Get, Post, Put, Param, Query, Body } from '@nestjs/common';
 import { DigestGeneratorService } from './digest-generator.service';
 
 @Controller('digests')
@@ -21,9 +21,17 @@ export class DigestController {
     return this.digestService.getLatestDigest();
   }
 
-  @Get(':date')
-  getByDate(@Param('date') date: string) {
-    return this.digestService.getDigestByDate(new Date(date));
+  @Get(':id')
+  getById(@Param('id') id: string) {
+    return this.digestService.getDigestById(id);
+  }
+
+  @Put(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() body: { title?: string; content?: string },
+  ) {
+    return this.digestService.updateDigest(id, body);
   }
 
   @Post('generate')

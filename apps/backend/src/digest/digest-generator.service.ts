@@ -215,6 +215,37 @@ export class DigestGeneratorService {
     });
   }
 
+  /**
+   * Get digest by ID
+   */
+  async getDigestById(id: string) {
+    return this.prisma.digest.findUnique({
+      where: { id },
+      include: {
+        items: {
+          include: {
+            processedItem: {
+              include: {
+                rawItem: { include: { source: true } },
+              },
+            },
+          },
+          orderBy: { order: 'asc' },
+        },
+      },
+    });
+  }
+
+  /**
+   * Update digest title and/or content
+   */
+  async updateDigest(id: string, data: { title?: string; content?: string }) {
+    return this.prisma.digest.update({
+      where: { id },
+      data,
+    });
+  }
+
   private categorizeItems(
     items: Array<{
       urgencyLevel: string;

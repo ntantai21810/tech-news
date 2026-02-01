@@ -1,10 +1,18 @@
 import type { Metadata } from 'next';
-import { Inter, JetBrains_Mono } from 'next/font/google';
+import { DM_Sans, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
+import { Newspaper, LayoutGrid, Search, Rss } from 'lucide-react';
 import './globals.css';
 
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-dm-sans',
+  weight: ['400', '500', '600', '700'],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-space-grotesk',
+  weight: ['400', '500', '600', '700'],
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -61,50 +69,184 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+    <html 
+      lang="en" 
+      className={`${dmSans.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+    >
       <body>
-        <div className="min-h-screen flex flex-col">
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
           {/* Header */}
-          <header className="border-b border-[var(--border-subtle)] bg-[var(--bg-secondary)]">
-            <div className="container py-4 flex items-center justify-between">
-              <a href="/" className="text-xl font-bold text-[var(--text-primary)] hover:text-[var(--accent-primary)] transition-colors">
-                <span className="text-[var(--accent-primary)]">&lt;</span>
-                TechIntel
-                <span className="text-[var(--accent-primary)]">/&gt;</span>
+          <header style={{
+            position: 'sticky',
+            top: 0,
+            zIndex: 50,
+            borderBottom: '1px solid var(--border-subtle)',
+            background: 'rgba(30, 41, 59, 0.9)',
+            backdropFilter: 'blur(12px)',
+          }}>
+            <div className="container" style={{
+              padding: '1rem 1.5rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+              {/* Logo */}
+              <a 
+                href="/" 
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  fontSize: '1.25rem',
+                  fontWeight: 700,
+                  color: 'var(--text-primary)',
+                  textDecoration: 'none',
+                }}
+              >
+                <span style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '2rem',
+                  height: '2rem',
+                  borderRadius: '0.5rem',
+                  background: 'var(--accent-primary)',
+                  color: 'white',
+                }}>
+                  <Newspaper style={{ width: '1.25rem', height: '1.25rem' }} />
+                </span>
+                <span>
+                  Tech<span style={{ color: 'var(--accent-primary)' }}>Intel</span>
+                </span>
               </a>
-              <nav className="flex items-center gap-6">
-                <a href="/digest" className="text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
-                  Digests
+              
+              {/* Navigation */}
+              <nav style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                <a 
+                  href="/digest" 
+                  className="nav-link"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '0.5rem',
+                    color: 'var(--text-secondary)',
+                    textDecoration: 'none',
+                    transition: 'all 0.15s',
+                  }}
+                >
+                  <Newspaper style={{ width: '1rem', height: '1rem' }} />
+                  <span>Digests</span>
                 </a>
-                <a href="/category" className="text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
-                  Categories
+                <a 
+                  href="/category" 
+                  className="nav-link"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '0.5rem',
+                    color: 'var(--text-secondary)',
+                    textDecoration: 'none',
+                    transition: 'all 0.15s',
+                  }}
+                >
+                  <LayoutGrid style={{ width: '1rem', height: '1rem' }} />
+                  <span>Categories</span>
                 </a>
-                <a href="/search" className="text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
-                  Search
+                <a 
+                  href="/search" 
+                  className="nav-link"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '0.5rem',
+                    color: 'var(--text-secondary)',
+                    textDecoration: 'none',
+                    transition: 'all 0.15s',
+                  }}
+                >
+                  <Search style={{ width: '1rem', height: '1rem' }} />
+                  <span>Search</span>
                 </a>
-                <a href="/feed.xml" className="tag">
-                  RSS
+                <a 
+                  href="/feed.xml" 
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    marginLeft: '0.5rem',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '0.5rem',
+                    background: 'var(--accent-muted)',
+                    color: 'var(--accent-primary)',
+                    textDecoration: 'none',
+                    transition: 'all 0.15s',
+                  }}
+                >
+                  <Rss style={{ width: '1rem', height: '1rem' }} />
+                  <span>RSS</span>
                 </a>
               </nav>
             </div>
           </header>
 
           {/* Main content */}
-          <main className="flex-1 py-8">
+          <main style={{ flex: 1, padding: '2rem 0' }}>
             {children}
           </main>
 
           {/* Footer */}
-          <footer className="border-t border-[var(--border-subtle)] bg-[var(--bg-secondary)] py-8">
-            <div className="container text-center text-[var(--text-muted)]">
-              <p>
-                Built with ❤️ using Next.js | Powered by AI-curated intelligence
-              </p>
-              <p className="mt-2 text-sm">
-                <a href="/feed.xml" className="hover:text-[var(--accent-primary)]">RSS</a>
-                {' • '}
-                <a href="https://github.com" className="hover:text-[var(--accent-primary)]">GitHub</a>
-              </p>
+          <footer style={{
+            borderTop: '1px solid var(--border-subtle)',
+            background: 'var(--bg-secondary)',
+            padding: '2rem 0',
+          }}>
+            <div className="container">
+              <div style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '1rem',
+                flexWrap: 'wrap',
+              }}>
+                {/* Logo & Description */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <span style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '2.5rem',
+                    height: '2.5rem',
+                    borderRadius: '0.5rem',
+                    background: 'var(--accent-muted)',
+                  }}>
+                    <Newspaper style={{ width: '1.25rem', height: '1.25rem', color: 'var(--accent-primary)' }} />
+                  </span>
+                  <div>
+                    <p style={{ fontWeight: 600, color: 'var(--text-primary)' }}>Tech Intelligence</p>
+                    <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>AI-curated tech news</p>
+                  </div>
+                </div>
+                
+                {/* Links */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', fontSize: '0.875rem', color: 'var(--text-muted)' }}>
+                  <a 
+                    href="/feed.xml" 
+                    style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', textDecoration: 'none' }}
+                  >
+                    <Rss style={{ width: '1rem', height: '1rem' }} />
+                    RSS Feed
+                  </a>
+                  <span style={{ color: 'var(--border-default)' }}>•</span>
+                  <p>Built with Next.js</p>
+                </div>
+              </div>
             </div>
           </footer>
         </div>

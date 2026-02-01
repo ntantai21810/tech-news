@@ -5,28 +5,42 @@ interface TagCloudProps {
 }
 
 export function TagCloud({ tags }: TagCloudProps) {
-  // Calculate relative sizes
   const maxCount = Math.max(...tags.map((t) => t.count));
   const minCount = Math.min(...tags.map((t) => t.count));
 
-  const getSize = (count: number): string => {
-    if (maxCount === minCount) return 'text-sm';
+  const getStyles = (count: number): React.CSSProperties => {
+    if (maxCount === minCount) {
+      return { fontSize: '0.875rem', fontWeight: 500, opacity: 1 };
+    }
     const normalized = (count - minCount) / (maxCount - minCount);
-    if (normalized > 0.7) return 'text-lg font-semibold';
-    if (normalized > 0.4) return 'text-base font-medium';
-    return 'text-sm';
+    if (normalized > 0.7) {
+      return { fontSize: '1rem', fontWeight: 600, opacity: 1 };
+    }
+    if (normalized > 0.4) {
+      return { fontSize: '0.875rem', fontWeight: 500, opacity: 0.9 };
+    }
+    return { fontSize: '0.75rem', fontWeight: 500, opacity: 0.75 };
   };
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
       {tags.map((tag) => (
         <a
           key={tag.tag}
-          href={`/tag/${encodeURIComponent(tag.tag)}`}
-          className={`tag hover:bg-[var(--accent-primary)] hover:text-white transition-colors ${getSize(tag.count)}`}
+          href={`/search?q=${encodeURIComponent(tag.tag)}`}
+          className="tag"
+          style={{
+            ...getStyles(tag.count),
+            cursor: 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.25rem',
+          }}
         >
           {tag.tag}
-          <span className="ml-1 opacity-60 text-xs">({tag.count})</span>
+          <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>
+            {tag.count}
+          </span>
         </a>
       ))}
     </div>

@@ -6,7 +6,8 @@ export const metadata: Metadata = {
   description: 'Browse tech news by category - Frontend, Backend, AI, Security, DevOps, and more.',
 };
 
-export const revalidate = 300; // 5 minutes
+// Use dynamic rendering - data comes from backend API
+export const dynamic = 'force-dynamic';
 
 const CATEGORY_INFO: Record<string, { emoji: string; description: string }> = {
   frontend: { emoji: '🎨', description: 'UI, React, styling, components' },

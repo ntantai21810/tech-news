@@ -3,6 +3,9 @@ import { format } from 'date-fns';
 
 const BASE_URL = process.env.BLOG_URL || 'http://localhost:3000';
 
+// Force dynamic rendering - sitemap needs fresh data
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   const digests = await getDigests(100);
 

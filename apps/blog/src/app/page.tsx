@@ -4,7 +4,8 @@ import { TagCloud } from '@/components/tag-cloud';
 import { StatsOverview } from '@/components/stats-overview';
 import { Newspaper, BookOpen, Tag, Rss, Zap } from 'lucide-react';
 
-export const revalidate = 60;
+// Use dynamic rendering - data comes from backend API
+export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   const [latestDigest, recentDigests, tags, stats] = await Promise.all([

@@ -4,6 +4,9 @@ import { getDigestByDate } from '@/lib/api';
 import { format } from 'date-fns';
 import { marked } from 'marked';
 
+type DigestData = Awaited<ReturnType<typeof getDigestByDate>>;
+type DigestItem = NonNullable<NonNullable<DigestData>['items']>[number];
+
 interface Props {
   params: Promise<{ date: string }>;
 }
@@ -40,13 +43,13 @@ export default async function DigestPage({ params }: Props) {
   const htmlContent = await marked(digest.content);
 
   // Group items by section
-  const sections: Record<string, typeof digest.items> = {};
+  const sections: Record<string, DigestItem[]> = {};
   if (digest.items) {
     for (const item of digest.items) {
       if (!sections[item.section]) {
         sections[item.section] = [];
       }
-      sections[item.section].push(item);
+      sections[item.section]!.push(item);
     }
   }
 
@@ -133,7 +136,7 @@ export default async function DigestPage({ params }: Props) {
   );
 }
 
-function ItemCard({ item }: { item: NonNullable<Awaited<ReturnType<typeof getDigestByDate>>>['items'] extends (infer T)[] ? T : never }) {
+function ItemCard({ item }: { item: DigestItem }) {
   const pi = item.processedItem;
   const ri = pi.rawItem;
 

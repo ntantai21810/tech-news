@@ -12,6 +12,7 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
+    "noImplicitAny": false,
     "incremental": true,
     "noEmit": false,
     "paths": {

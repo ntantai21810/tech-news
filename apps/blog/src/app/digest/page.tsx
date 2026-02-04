@@ -7,7 +7,8 @@ export const metadata: Metadata = {
   description: 'Browse all daily tech digests covering JavaScript, TypeScript, Next.js, NestJS, and AI/ML updates.',
 };
 
-export const revalidate = 60;
+// Use dynamic rendering - data comes from backend API
+export const dynamic = 'force-dynamic';
 
 export default async function DigestsPage() {
   const digests = await getDigests(50);

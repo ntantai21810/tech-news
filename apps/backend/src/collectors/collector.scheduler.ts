@@ -101,7 +101,12 @@ export class CollectorScheduler {
     const sources = await this.sourcesService.findAll({ isActive: true });
     this.logger.log(`Triggering collection for ${sources.length} sources`);
 
-    const results = [];
+    const results: Array<{
+      sourceId: string;
+      name: string;
+      success: boolean;
+      error?: string;
+    }> = [];
     for (const source of sources) {
       try {
         await this.collectFromSource(source);
